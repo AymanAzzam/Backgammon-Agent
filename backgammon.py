@@ -3,19 +3,19 @@ import agent
 
 def intialize_board():
     board = np.zeros(29) 
-    #positions from 1 to 24: the number of coins in that position (+ for player_1, - for player_2)
-    #position 25: number of killed coins for player_1
-    #position 26: number of killed coins for player_2
-    #position 27: number of coins that have been beared off from the board for player_1
-    #position 28: number of coins that have been beared off from the board for player_2
+    #positions from 1 to 24: the number of coins in that position (+ for player 1, - for player -1)
+    #position 25: number of killed coins for player 1
+    #position 26: number of killed coins for player -1
+    #position 27: number of coins that have been beared off from the board for player 1
+    #position 28: number of coins that have been beared off from the board for player -1
     
-    #Player_1 (White)
+    #Player 1 (White)
     board[6] = 5
     board[8] = 3
     board[13] = 5
     board[24] = 2
     
-    #Player_2 (Red)
+    #Player -1 (Red)
     board[1] = -2
     board[12] = -5
     board[17] = -3

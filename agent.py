@@ -10,7 +10,7 @@ def update_board(board, move, player):
         startPip = move[0]
         endPip = move[1]
         
-        # moving the dead coin if the move kills an opponent coin
+        # moving the dead checker if the move kills an opponent checker
         if updated_board[endPip] + player == 0:
             updated_board[endPip] = 0
             jail = 25+(player==1)
@@ -29,17 +29,17 @@ def legal_move(board,dice,player):
 
     if player == 1:
         
-        # dead coin needs to back to the board
+        # dead checker needs to back to the board
         if board[25] > 0: 
             destination = 25-dice
             if board[destination] >= -1:
                 possible_moves.append(np.array([25,destination]))
                 
-        # no dead coins        
+        # no dead checkers        
         else:
             # bearing off case
             if sum(board[7:25]>0) == 0: 
-                if (board[dice] > 0): # we can bear off a coin
+                if (board[dice] > 0): # we can bear off a checker
                     possible_moves.append(np.array([dice,27]))
                     
                 elif not game_over(board): #play the farthest one in the home board
@@ -57,17 +57,17 @@ def legal_move(board,dice,player):
                         
     elif player == -1:
         
-        # dead coin needs to back to the board
+        # dead checker needs to back to the board
         if board[26] < 0: 
             start_pip = dice
             if board[start_pip] < 2:
                 possible_moves.append(np.array([26,start_pip]))
                 
-        # no dead coins       
+        # no dead checkers       
         else:
             # bearing off case
             if sum(board[1:19]<0) == 0: 
-                if (board[25-dice] < 0): # we can bear off a coin
+                if (board[25-dice] < 0): # we can bear off a checker
                     possible_moves.append(np.array([25-dice,28]))
                 elif not game_over(board): #play the farthest one in the home board
                     s = np.min(np.where(board[19:25]<0)[0])
@@ -98,8 +98,8 @@ def legal_moves(board,dice,player):
             moves.append(np.array([move1,move2]))
             boards.append(update_board(temp_board,move2,player))
 
+    # try using the second dice, then the first one
     if dice[0] != dice[1]:
-        # try using the second dice, then the first one
         possible_first_moves = legal_move(board, dice[1], player)
         for move1 in possible_first_moves:
             temp_board = update_board(board,move1,player)
@@ -110,13 +110,12 @@ def legal_moves(board,dice,player):
             
     # if there's no pair of moves available, Try the maximum dice only:
     if len(moves)==0: 
-        # play the largest dice only:
         possible_first_moves = legal_move(board, np.maximum(dice[0],dice[1]), player)
         for move in possible_first_moves:
             moves.append(np.array([move]))
             boards.append(update_board(board,move,player))
 
-    # play the smallest dice only:        
+    #if there's no move available, play the smallest dice only:        
     if(len(moves)==0 and dice[0] != dice[1]):
         possible_first_moves = legal_move(board, np.minimum(dice[0],dice[1]), player)
         for move in possible_first_moves:
@@ -166,8 +165,8 @@ def expectminimax(board, dice, player, my_turn,depth,max_depth):
     if (game_over(board) or max_depth == depth):
         return evaluate(board, player), [], board
      
-    # Maximizer node if player_1
-    # Minimizer node if player_2 
+    # Maximizer node if player 1
+    # Minimizer node if player -1 
     if (my_turn):
         moves, boards = legal_moves(board,dice,player)
         if len(moves) == 0:
