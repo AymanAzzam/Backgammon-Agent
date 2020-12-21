@@ -1,3 +1,4 @@
+import random
 import numpy as np
 import agent
 
@@ -29,7 +30,7 @@ def roll_dice():
 def main():
     max_depth = 2
     board = intialize_board()
-    player_num = 1
+    player_num = random.randrange(-1, 1, 2)
     i = 0
 
     while(not agent.game_over(board)):
