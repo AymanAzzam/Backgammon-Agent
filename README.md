@@ -23,7 +23,7 @@ few examples:
 The Agent uses the expectminimax algorithm to represent the possible moves then it choses the best moves based on the evaluatuion function, you can control the depth of tree using max_depth parameter in **backgammon.py**. The evaluation function is explained in https://bkgm.com/articles/SjoqvistStenlund/report.pdf
 
 ### Run
-The code is implemented using python so you should have python and numpy library installed the run the following command:
+The code is implemented using python so you should have python and numpy library installed then run the following command:
 ```bash
 python backgammon.py
 ```
