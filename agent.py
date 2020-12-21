@@ -43,13 +43,10 @@ def legal_move(board,dice,player):
                     possible_moves.append(np.array([dice,27]))
                     
                 elif not game_over(board): #play the farthest one in the home board
-                    try:
-                        s = np.max(np.where(board[1:7]>0)[0]+1)
-                        if s<dice:
-                            possible_moves.append(np.array([s,27]))
-                    except ValueError:
-                        pass
-
+                    s = np.max(np.where(board[1:7]>0)[0]+1)
+                    if s<dice:
+                        possible_moves.append(np.array([s,27]))
+                    
             possible_start_pips = np.where(board[0:25]>0)[0]
 
             # finding all other legal options
@@ -73,12 +70,10 @@ def legal_move(board,dice,player):
                 if (board[25-dice] < 0): # we can bear off a coin
                     possible_moves.append(np.array([25-dice,28]))
                 elif not game_over(board): #play the farthest one in the home board
-                    try:
-                        s = np.min(np.where(board[19:25]<0)[0])
-                        if (6-s)<dice:
-                            possible_moves.append(np.array([19+s,28]))
-                    except ValueError:
-                        pass
+                    s = np.min(np.where(board[19:25]<0)[0])
+                    if (6-s)<dice:
+                        possible_moves.append(np.array([19+s,28]))
+                    
             # finding all other legal options
             possible_start_pips = np.where(board[0:25]<0)[0]
             for s in possible_start_pips:
@@ -113,21 +108,21 @@ def legal_moves(board,dice,player):
                 moves.append(np.array([move1,move2]))
                 boards.append(update_board(temp_board,move2,player))
             
-    # if there's no pair of moves available, allow one move:
+    # if there's no pair of moves available, Try the maximum dice only:
     if len(moves)==0: 
-        # play the the first dice only:
-        possible_first_moves = legal_move(board, dice[0], player)
+        # play the largest dice only:
+        possible_first_moves = legal_move(board, np.maximum(dice[0],dice[1]), player)
         for move in possible_first_moves:
             moves.append(np.array([move]))
             boards.append(update_board(board,move,player))
-            
-        # play the the second dice only:
-        if dice[0] != dice[1]:
-            possible_first_moves = legal_move(board, dice[1], player)
-            for move in possible_first_moves:
-                moves.append(np.array([move]))
-                boards.append(update_board(board,move,player))
-            
+
+    # play the smallest dice only:        
+    if(len(moves)==0 and dice[0] != dice[1]):
+        possible_first_moves = legal_move(board, np.minimum(dice[0],dice[1]), player)
+        for move in possible_first_moves:
+            moves.append(np.array([move]))
+            boards.append(update_board(board,move,player))
+    
     return moves, boards 
 
 # I used the evaluation function mentioned in

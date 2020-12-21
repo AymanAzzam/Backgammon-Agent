@@ -29,29 +29,31 @@ def roll_dice():
 def main():
     max_depth = 2
     board = intialize_board()
-    Plays_num = 50000
     player_num = 1
+    i = 0
 
-    for i in range(Plays_num):
+    while(not agent.game_over(board)):
         dice = roll_dice()
         
         print(str(i))
         print("player " + str(player_num))
         print("dice: " +str(dice[0])+ " and " +str(dice[1]))
-        
-	board = agent.agent(board, dice, player_num, max_depth)
+        board = agent.agent(board, dice, player_num, max_depth)
 
-	if dice[0] == dice[1]:
-		board = agent.agent(board, dice, player_num, max_depth)
+        # Play again if the the two dices are equivalent
+        if dice[0] == dice[1]:
+            print("Second play")
+            print("player " + str(player_num))
+            print("dice: " +str(dice[0])+ " and " +str(dice[1]))
+            board = agent.agent(board, dice, player_num, max_depth)
 
         player_num = -player_num
+        i = i + 1
 
-        if(agent.game_over(board)):
-            if(board[27] >= 15):
-                print("The winner is player 1")
-            if(board[28] <= -15):
-                print("The winner is player -1")
-            return
-
+    if(board[27] >= 15):
+        print("The winner is player 1")
+    if(board[28] <= -15):
+        print("The winner is player -1")
+    
 if __name__ == '__main__':
     main()
