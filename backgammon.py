@@ -38,7 +38,11 @@ def main():
         print(str(i))
         print("player " + str(player_num))
         print("dice: " +str(dice[0])+ " and " +str(dice[1]))
-        board = agent.agent(board, dice, player_num, max_depth)
+        
+	board = agent.agent(board, dice, player_num, max_depth)
+
+	if dice[0] == dice[1]:
+		board = agent.agent(board, dice, player_num, max_depth)
 
         player_num = -player_num
 

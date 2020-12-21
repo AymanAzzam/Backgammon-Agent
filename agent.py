@@ -148,8 +148,7 @@ def evaluate(board, player):
                 m = m - 2
                 if(board[i] < -4): # if number of checkers < 4
                     m = m + 1
-        #return 0.01 * ( n + m) + 0.029 * ( - board[26] - board[25]) + 0.2 *board[27]
-        return 0.01 * ( -n + -m) + 0.029 * ( - board[26] - board[25])
+        return -0.01 * ( n + m) + 0.029 * ( - board[26] - board[25])
 
     else:
         for i in range(25):
@@ -163,7 +162,7 @@ def evaluate(board, player):
                 m = m + 2
                 if(board[i] > 4): # if number of checkers < 4
                     m = m - 1
-        return 0.01 * ( -n + -m) + 0.029 * (board[25] + board[26])
+        return -0.01 * ( n + m) + 0.029 * (board[25] + board[26])
 
 
 def expectminimax(board, dice, player, my_turn,depth,max_depth):
